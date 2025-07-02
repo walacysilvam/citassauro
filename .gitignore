@@ -1,0 +1,40 @@
+# Go build
+/bin/
+/obj/
+*.exe
+*.out
+*.test
+
+# Go workspace
+*.mod~
+*.sum~
+go.sum
+go.work
+go.work.sum
+
+# IDEs e editores
+.vscode/
+.idea/
+*.swp
+*.swo
+*.DS_Store
+
+# Executáveis locais
+citassauro
+
+# Banco local
+quotes.db
+
+# Documentação gerada
+# ainda não está sendo gerada, mas é uma boa prática ignorar
+/docs/
+
+# Logs e arquivos temporários
+*.log
+*.tmp
+*.bak
+
+# Docker
+*.env
+.env.*
+docker-compose.override.yml
