@@ -23,7 +23,7 @@ go.work.sum
 citassauro
 
 # Banco local
-quotes.db
+*.db
 
 # Documentação gerada
 # ainda não está sendo gerada, mas é uma boa prática ignorar
