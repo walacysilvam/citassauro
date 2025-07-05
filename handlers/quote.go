@@ -76,4 +76,8 @@ func RegisterRoutes(r *gin.Engine, db *gorm.DB) {
 		db.Delete(&quote)
 		c.Status(http.StatusNoContent)
 	})
+
+	// REGISTRO DE USUARIOS
+	// POST /users
+	r.POST("/register", Register(db))
 }

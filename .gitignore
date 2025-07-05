@@ -24,6 +24,7 @@ citassauro
 
 # Banco local
 *.db
+citassauro.db
 
 # Documentação gerada
 # ainda não está sendo gerada, mas é uma boa prática ignorar
