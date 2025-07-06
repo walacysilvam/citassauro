@@ -1,5 +1,5 @@
 # Citassauro 🦖
-
+📘 Read this in [Português 🇧🇷](README.pt-BR.md)<br>
 A simple and robust API for creating and managing quotes, written in Golang.
 
 ## 📦 About
