@@ -80,4 +80,8 @@ func RegisterRoutes(r *gin.Engine, db *gorm.DB) {
 	// REGISTRO DE USUARIOS
 	// POST /users
 	r.POST("/register", Register(db))
+
+	// LOGIN DE USUARIOS
+	// POST /login
+	r.POST("/login", Login(db))
 }
