@@ -7,6 +7,7 @@ import (
 	"gorm.io/gorm"
 
 	"net/http"
+	"strconv"
 )
 
 func Register(db *gorm.DB) gin.HandlerFunc {
@@ -68,5 +69,29 @@ func Login(db *gorm.DB) gin.HandlerFunc {
 		}
 
 		c.JSON(http.StatusOK, gin.H{"message": "Login bem-sucedido", "user": user})
+	}
+}
+
+func deleteUser(db *gorm.DB) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		idParam := c.Param("id")
+		id, err := strconv.Atoi(idParam)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "ID inválido"})
+			return
+		}
+
+		var user models.User
+		if err := db.First(&user, id).Error; err != nil {
+			c.JSON(http.StatusNotFound, gin.H{"error": "Usuário não encontrado"})
+			return
+		}
+
+		if err := db.Delete(&user).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao deletar usuário"})
+			return
+		}
+
+		c.JSON(http.StatusNoContent, gin.H{"message": "Usuário deletado com sucesso"})
 	}
 }
