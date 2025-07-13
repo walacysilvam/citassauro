@@ -14,7 +14,8 @@ func RegisterRoutes(r *gin.Engine, db *gorm.DB) {
 	r.DELETE("/quotes/:id", DeleteQuote(db))
 
 	// ROTAS DE USUÁRIOS
-	r.POST("/register", Register(db))
 	r.POST("/login", Login(db))
+	r.POST("/register", Register(db))
+	r.POST("/users/:id", updateUser(db))
 	r.DELETE("/users/:id", deleteUser(db))
 }

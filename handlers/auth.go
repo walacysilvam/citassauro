@@ -72,6 +72,48 @@ func Login(db *gorm.DB) gin.HandlerFunc {
 	}
 }
 
+func updateUser(db *gorm.DB) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		idParam := c.Param("id")
+		id, err := strconv.Atoi(idParam)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "ID inválido"})
+			return
+		}
+
+		var input struct {
+			Username string `json:"username" binding:"required"`
+			Password string `json:"password" binding:"omitempty,min=6"`
+		}
+
+		if err := c.ShouldBindJSON(&input); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		var user models.User
+		if err := db.First(&user, id).Error; err != nil {
+			c.JSON(http.StatusNotFound, gin.H{"error": "Usuário não encontrado"})
+			return
+		}
+
+		// validação da senha apenas, nada de alterar a senha agora!
+		err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(input.Password))
+		if err != nil {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Senha incorreta"})
+			return
+		}
+
+		user.Username = input.Username
+		if err := db.Save(&user).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao salvar alterações"})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{"message": "Usuário atualizado com sucesso", "user": user})
+	}
+}
+
 func deleteUser(db *gorm.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		idParam := c.Param("id")
